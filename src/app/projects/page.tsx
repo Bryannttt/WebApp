@@ -2,7 +2,7 @@
 
 
 import Image from "next/image";
-
+import LetterBox from "@/components/letterbox";
 import axios from "axios";
 import Link from "next/link";
 
@@ -54,7 +54,18 @@ export default async function ProjectsPage() {
 
   console.log(projectData);
 
- 
+ const projectSnippet= projectData.map((proj)=>{
+  return <Link
+   key={proj.projectId} 
+  href={`/projects/${proj.projectId}`} 
+  className = "flex justify-between items-center p-2 border rounded">
+    <div className="flex items-center">
+    <LetterBox letter={proj.projectName[0]}/>
+    <span className="ml-2">{proj.projectName}</span>
+    </div>
+    <div>View Files</div>
+  </Link>
+ })
 
   // Render the component
 
@@ -63,49 +74,16 @@ export default async function ProjectsPage() {
     <div>
 
       {/* Display heading */}
-
-      <div>Projects Page!, PROJECT FOLDERS BELONG HERE</div>
-
-      {/* Render a table to display project data */}
-
-      <table className="table-auto">
-
-        <thead>
-
-          <tr>
-
-            <th>Project ID</th>
-
-            <th>Project Name</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          {/* Map through projectData array and render a row for each project */}
-
-          {projectData.map(project => (
-
-            <tr key={project.projectId}>
-
-              <td>{project.projectId}</td>
-
-              <Link href={`/projects/${project.projectId}`}>  
-                <td>{project.projectName}</td>
-              </Link>
-
-            </tr>
-
-          ))}
-
-        </tbody>
-
-      </table>
-
+<div className="flex m-2 justify-between items-center ">
+      
     </div>
-
+    
+    <div className="flex flex-col gap-2 mt-24 ml-20 mr-20">
+    <h1 className="font bold">Projects ({projectData.length})</h1>
+    <hr/>
+      {projectSnippet}
+    </div>
+    </div>
   );
 
 }
